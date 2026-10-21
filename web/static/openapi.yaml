@@ -233,6 +233,7 @@ paths:
         - $ref: "#/components/parameters/ExperienceYearsMin"
         - $ref: "#/components/parameters/ExperienceYearsMax"
         - $ref: "#/components/parameters/ExperienceIncludeUnspecified"
+        - $ref: "#/components/parameters/SeniorityIncludeUnspecified"
         - $ref: "#/components/parameters/PostedWithinDays"
         - $ref: "#/components/parameters/OpenWithinDays"
         - $ref: "#/components/parameters/RegionsExclude"
@@ -316,6 +317,7 @@ paths:
         - $ref: "#/components/parameters/ExperienceYearsMin"
         - $ref: "#/components/parameters/ExperienceYearsMax"
         - $ref: "#/components/parameters/ExperienceIncludeUnspecified"
+        - $ref: "#/components/parameters/SeniorityIncludeUnspecified"
         - $ref: "#/components/parameters/PostedWithinDays"
         - $ref: "#/components/parameters/OpenWithinDays"
         - $ref: "#/components/parameters/RegionsExclude"
@@ -568,6 +570,7 @@ paths:
         - $ref: "#/components/parameters/ExperienceYearsMin"
         - $ref: "#/components/parameters/ExperienceYearsMax"
         - $ref: "#/components/parameters/ExperienceIncludeUnspecified"
+        - $ref: "#/components/parameters/SeniorityIncludeUnspecified"
         - $ref: "#/components/parameters/PostedWithinDays"
         - $ref: "#/components/parameters/OpenWithinDays"
       responses:
@@ -1592,6 +1595,15 @@ components:
         With either experience bound, also keep the postings that state no
         experience requirement — most of the catalogue, which a bound
         otherwise excludes. Has no effect without a bound.
+    SeniorityIncludeUnspecified:
+      name: seniority_include_unspecified
+      in: query
+      schema:
+        type: boolean
+      description: >-
+        With `seniority`, also keep the postings that carry no seniority level —
+        most of the catalogue, which including a level otherwise excludes. Has no
+        effect without an included seniority.
     PostedWithinDays:
       name: posted_within_days
       in: query
