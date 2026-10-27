@@ -472,9 +472,17 @@ func All(c HTTPClient) map[string]Source {
 		// Concurrency-limited: one API host answers every Oorwin portal (see oorwinMaxInFlight).
 		NewOorwin(limitedOorwinPoster(c)),
 		NewEasyCruit(c),
-		// Rate-paced: one origin serves every Homerun feed and vacancy page (see homerunRequestInterval).
-		NewHomerun(pacedHomerunGetter(c)),
+		// Rate-paced: one origin serves every Homerun feed and vacancy page (see homerunRequestInterval);
+		// the first refusal stops the run's Homerun traffic until ApplyProxyEgress gives it the
+		// rotating lane (see homerunEgress).
+		NewHomerun(pacedHomerunGetter(newHomerunEgress(c, nil))),
 		NewHROffice(c),
+		// Bizneo HR (Spain): board = the career-site host under bizneo.cloud; bodies hydrated for
+		// new postings only.
+		NewBizneo(c),
+		// ePreselec (Spain, Adevinta): board = the <label>.epreselec.com site; Imperva-fronted, so
+		// on the crawl host it is rebuilt over the Scrapling tier (scraplingtier.go).
+		NewEPreselec(c),
 		NewGreytHR(c),
 		// Concurrency-limited: one origin serves every helixjobs iid (see helixjobsMaxInFlight).
 		NewHelixjobs(limitedHelixjobsGetter(c)),
@@ -851,6 +859,9 @@ func All(c HTTPClient) map[string]Source {
 	// Shine.com: an Indian general job board, enumerated from its job sitemaps, each new
 	// posting's facts read from its page's schema.org JobPosting. See shine.go.
 	registry["shine"] = NewShine(c)
+	// Infoempleo: a Spanish general job board, enumerated from its paginated listing, each new
+	// posting's body read from its page's schema.org JobPosting. See infoempleo.go.
+	registry["infoempleo"] = NewInfoempleo(c)
 	// meta/uber/gusto are NOT served by the shared client: Meta's edge 400s the default Go
 	// TLS+HTTP/2 fingerprint and Uber's and Gusto's Cloudflare edges challenge it, so all three
 	// need the shared Chrome-fingerprint transport (fingerprintHTTP, also used by the
