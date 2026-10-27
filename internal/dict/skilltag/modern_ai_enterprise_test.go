@@ -20,7 +20,7 @@ func TestParse_ModernAIAndEnterpriseSkills(t *testing.T) {
 		},
 		{
 			name: "olap database duckdb",
-			in:   "Data engineer building analytics pipelines with DuckDB and Parquet files for fast local analytical processing.",
+			in:   "Data engineer building data pipelines with DuckDB and Parquet files for fast local analytical processing.",
 			want: []string{"duckdb", "data-pipelines"},
 		},
 		{
